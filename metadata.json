@@ -1,0 +1,6 @@
+{
+  "name": "Bloom and Ledger",
+  "description": "Practical, friendly reads on women's wellness, health, skincare, finance and startups.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
