@@ -13,6 +13,7 @@ export const ARTICLES_DATA: Article[] = [
       role: 'Wellness & Habit Researcher',
     },
     featured: true,
+    imageUrl: '/src/assets/images/morning_reset_1792085484093.jpg',
     visualType: 'wellness-waves',
     interactiveTool: 'morning-reset',
     fullContent: {
@@ -59,6 +60,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Dr. Clara Thorne',
       role: 'Circadian Biology Specialist',
     },
+    imageUrl: '/src/assets/images/night_routine_1792085485135.jpg',
     visualType: 'wellness-sleep',
     fullContent: {
       introduction: 'We wear sleep deprivation like a badge of resilience. We pride ourselves on getting through meetings on caffeine and adrenaline, telling ourselves we will catch up on the weekend. But female hormonal rhythms, memory consolidation, and cellular repair are acutely sensitive to chronic short sleep.',
@@ -97,6 +99,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Dr. Maya Sen',
       role: 'Endocrinology & Women\'s Health',
     },
+    imageUrl: '/src/assets/images/cycle_health_1792085485518.jpg',
     visualType: 'health-pulse',
     interactiveTool: 'cycle-guide',
     fullContent: {
@@ -136,6 +139,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Dr. Anita Roy',
       role: 'Preventive Medicine & Diagnostics',
     },
+    imageUrl: '/src/assets/images/blood_checks_1792085485544.jpg',
     visualType: 'health-labs',
     interactiveTool: 'lab-checklist',
     fullContent: {
@@ -176,6 +180,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Sora Kim',
       role: 'Cosmetic Chemist & Formulator',
     },
+    imageUrl: '/src/assets/images/skincare_routine_1792085485682.jpg',
     visualType: 'skincare-drops',
     interactiveTool: 'skincare-builder',
     fullContent: {
@@ -221,6 +226,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Dr. Priya Nair',
       role: 'Consultant Dermatologist',
     },
+    imageUrl: '/src/assets/images/sunscreen_guide_1792085487512.jpg',
     visualType: 'skincare-sun',
     fullContent: {
       introduction: 'Sunscreen is arguably the most extensively tested and effective cosmetic formulation in modern dermatology. Yet myths around toxicity, white cast, and indoor safety persist across social media.',
@@ -260,6 +266,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Meera Kapoor',
       role: 'Certified Financial Planner',
     },
+    imageUrl: '/src/assets/images/budget_rule_1792085487140.jpg',
     visualType: 'finance-bars',
     interactiveTool: 'budget-calc',
     fullContent: {
@@ -294,6 +301,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Ananya Deshmukh',
       role: 'Investment Strategist & Writer',
     },
+    imageUrl: '/src/assets/images/sip_investing_1792085487747.jpg',
     visualType: 'finance-growth',
     interactiveTool: 'sip-calc',
     fullContent: {
@@ -328,6 +336,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Rhea Sengupta',
       role: 'Venture Partner & Founder',
     },
+    imageUrl: '/src/assets/images/startup_funding_1792085488920.jpg',
     visualType: 'startup-launch',
     fullContent: {
       introduction: 'Tech media glorifies massive venture capital seed rounds with oversized checks and splashy PR headlines. What they rarely discuss is the loss of board control, the relentless pressure for 10x growth at the expense of profitability, and founder dilution that leaves creators with single-digit equity at exit.',
@@ -364,6 +373,7 @@ export const ARTICLES_DATA: Article[] = [
       name: 'Tara Balan',
       role: 'Brand Architect & Advisor',
     },
+    imageUrl: '/src/assets/images/women_brand_1792085489016.jpg',
     visualType: 'startup-brand',
     fullContent: {
       introduction: 'In a digital ecosystem saturated with hyper-optimized advertising, deepfakes, and disposable consumer goods, consumers are exhausted. They do not buy merely for utility anymore—they buy from people and businesses whose values and transparency they trust implicitly.',

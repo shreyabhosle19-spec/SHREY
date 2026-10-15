@@ -61,7 +61,11 @@ export const SavedArticlesModal: React.FC<SavedArticlesModalProps> = ({
                 className="p-3 bg-white rounded-2xl border border-stone-200 hover:border-stone-300 transition-all flex items-center gap-3 group"
               >
                 <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-stone-100">
-                  <ArticleIllustration visualType={article.visualType} />
+                  <ArticleIllustration
+                    visualType={article.visualType}
+                    imageUrl={article.imageUrl}
+                    alt={article.title}
+                  />
                 </div>
                 <div
                   className="flex-1 min-w-0 cursor-pointer"

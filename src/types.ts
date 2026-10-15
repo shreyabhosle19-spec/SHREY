@@ -19,6 +19,7 @@ export interface Article {
     role: string;
   };
   featured?: boolean;
+  imageUrl?: string;
   visualType: 'wellness-waves' | 'wellness-sleep' | 'health-pulse' | 'health-labs' | 'skincare-drops' | 'skincare-sun' | 'finance-bars' | 'finance-growth' | 'startup-launch' | 'startup-brand';
   interactiveTool?: 'morning-reset' | 'sleep-winddown' | 'cycle-guide' | 'lab-checklist' | 'skincare-builder' | 'sunscreen-guide' | 'budget-calc' | 'sip-calc' | 'funding-matrix' | 'brand-trust';
   fullContent: {

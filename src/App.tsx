@@ -4,13 +4,14 @@
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, Bookmark, Mail, SlidersHorizontal, ArrowUpRight, X } from 'lucide-react';
+import { Search, Bookmark, Mail, SlidersHorizontal, ArrowUpRight, X, Sparkles } from 'lucide-react';
 import { CategoryType, Article } from './types';
 import { ARTICLES_DATA } from './data/articles';
 import { ArticleIllustration } from './components/ArticleIllustration';
 import { ArticleModal } from './components/ArticleModal';
 import { SavedArticlesModal } from './components/SavedArticlesModal';
 import { NewsletterModal } from './components/NewsletterModal';
+import { BrandSwitcherModal } from './components/BrandSwitcherModal';
 
 const CATEGORIES: CategoryType[] = ['All', 'Wellness', 'Health', 'Skincare', 'Finance', 'Startups'];
 
@@ -21,6 +22,29 @@ export default function App() {
   const [activeArticle, setActiveArticle] = useState<Article | null>(null);
   const [isSavedOpen, setIsSavedOpen] = useState(false);
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
+  const [visualMode, setVisualMode] = useState<'photo' | 'graphic'>('photo');
+  const [isBrandModalOpen, setIsBrandModalOpen] = useState(false);
+  const [brandName, setBrandName] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem('bloom_brand_name');
+      if (saved && saved !== 'Bloom and Ledger' && saved !== 'Well & Vested') {
+        return saved;
+      }
+      return 'Slay & Scale';
+    } catch {
+      return 'Slay & Scale';
+    }
+  });
+
+  const handleSelectBrand = (newBrand: string) => {
+    setBrandName(newBrand);
+    try {
+      localStorage.setItem('bloom_brand_name', newBrand);
+      document.title = `${newBrand} — Wellness, Health, Skincare, Finance & Startups`;
+    } catch {
+      // storage unavailable
+    }
+  };
 
   // Bookmark persistence in localStorage
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => {
@@ -88,17 +112,26 @@ export default function App() {
       {/* 1. TOP BAR CONTRACT: Brand, Nav, Single Action */}
       <header className="sticky top-0 z-40 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-stone-200/80 px-4 sm:px-8 py-3.5 transition-all">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-8">
-          {/* Zone 1: Single text element wordmark */}
-          <button
-            onClick={() => {
-              setSelectedCategory('All');
-              setSearchQuery('');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="text-left font-serif text-2xl font-bold tracking-tight text-[#8B2547] hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
-          >
-            Bloom and Ledger
-          </button>
+          {/* Zone 1: Single text element wordmark with branding switch affordance */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <button
+              onClick={() => {
+                setSelectedCategory('All');
+                setSearchQuery('');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="text-left font-serif text-2xl font-bold tracking-tight text-[#8B2547] hover:opacity-90 transition-opacity whitespace-nowrap"
+            >
+              {brandName}
+            </button>
+            <button
+              onClick={() => setIsBrandModalOpen(true)}
+              className="p-1 rounded-lg text-stone-400 hover:text-[#8B2547] hover:bg-stone-100 transition-colors"
+              title="Change publication name"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#8B2547]" />
+            </button>
+          </div>
 
           {/* Zone 2: Navigation Categories */}
           <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-stone-600">
@@ -196,24 +229,50 @@ export default function App() {
 
       {/* MAIN CONTAINER */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8 py-8 sm:py-12">
-        {/* Category Pill Filters matching Screenshot */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar">
-          {CATEGORIES.map((cat) => {
-            const isSelected = selectedCategory === cat;
-            return (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs sm:text-sm transition-all whitespace-nowrap shrink-0 ${
-                  isSelected
-                    ? 'border border-stone-900 text-stone-900 font-medium bg-transparent shadow-2xs'
-                    : 'text-stone-600 hover:text-stone-900 bg-transparent'
-                }`}
-              >
-                {cat}
-              </button>
-            );
-          })}
+        {/* Category Pill Filters & Visual Style Switcher */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            {CATEGORIES.map((cat) => {
+              const isSelected = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4 py-1.5 rounded-full text-xs sm:text-sm transition-all whitespace-nowrap shrink-0 ${
+                    isSelected
+                      ? 'border border-stone-900 text-stone-900 font-medium bg-transparent shadow-2xs'
+                      : 'text-stone-600 hover:text-stone-900 bg-transparent'
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Visual Mode Selector (Editorial Photos vs Vector Graphics) */}
+          <div className="flex items-center gap-1 p-1 bg-stone-100 rounded-full border border-stone-200/80 text-xs shrink-0 self-start sm:self-auto">
+            <button
+              onClick={() => setVisualMode('photo')}
+              className={`px-3 py-1 rounded-full font-medium transition-all ${
+                visualMode === 'photo'
+                  ? 'bg-white text-stone-900 shadow-2xs font-semibold'
+                  : 'text-stone-500 hover:text-stone-800'
+              }`}
+            >
+              Editorial Photos
+            </button>
+            <button
+              onClick={() => setVisualMode('graphic')}
+              className={`px-3 py-1 rounded-full font-medium transition-all ${
+                visualMode === 'graphic'
+                  ? 'bg-white text-stone-900 shadow-2xs font-semibold'
+                  : 'text-stone-500 hover:text-stone-800'
+              }`}
+            >
+              Minimalist Art
+            </button>
+          </div>
         </div>
 
         {/* HERO EDITORIAL HEADLINE matching Screenshot */}
@@ -255,9 +314,14 @@ export default function App() {
             onClick={() => setActiveArticle(featuredArticle)}
             className="group mb-8 bg-white border border-stone-200/90 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer grid grid-cols-1 md:grid-cols-2"
           >
-            {/* Left Graphic */}
-            <div className="h-64 md:h-auto min-h-[260px] relative overflow-hidden">
-              <ArticleIllustration visualType={featuredArticle.visualType} />
+            {/* Left Graphic / Photo */}
+            <div className="h-64 md:h-auto min-h-[260px] relative overflow-hidden bg-stone-100">
+              <ArticleIllustration
+                visualType={featuredArticle.visualType}
+                imageUrl={featuredArticle.imageUrl}
+                alt={featuredArticle.title}
+                forceGraphic={visualMode === 'graphic'}
+              />
             </div>
 
             {/* Right Content */}
@@ -335,9 +399,14 @@ export default function App() {
                   onClick={() => setActiveArticle(article)}
                   className="group bg-white border border-stone-200/90 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
                 >
-                  {/* Top Illustration Area */}
-                  <div className="h-60 sm:h-64 w-full relative overflow-hidden bg-stone-50">
-                    <ArticleIllustration visualType={article.visualType} />
+                  {/* Top Illustration / Photo Area */}
+                  <div className="h-60 sm:h-64 w-full relative overflow-hidden bg-stone-100">
+                    <ArticleIllustration
+                      visualType={article.visualType}
+                      imageUrl={article.imageUrl}
+                      alt={article.title}
+                      forceGraphic={visualMode === 'graphic'}
+                    />
                     <button
                       onClick={(e) => toggleBookmark(article.id, e)}
                       className="absolute top-4 right-4 p-2 rounded-xl bg-white/80 backdrop-blur-xs border border-white/80 text-stone-600 hover:text-[#8B2547] shadow-xs transition-colors"
@@ -401,13 +470,13 @@ export default function App() {
         <div className="max-w-6xl mx-auto space-y-6">
           {/* Disclaimer verbatim from screenshot */}
           <p className="text-xs sm:text-sm text-stone-500 leading-relaxed max-w-4xl">
-            Bloom and Ledger shares general information for learning. It is not medical or financial advice. Talk to a
+            {brandName} shares general information for learning. It is not medical or financial advice. Talk to a
             doctor, dermatologist or licensed advisor for decisions about you.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-200 text-xs text-stone-400">
             <div className="flex items-center gap-2">
-              <span className="font-serif font-semibold text-stone-700">Bloom and Ledger</span>
+              <span className="font-serif font-semibold text-stone-700">{brandName}</span>
               <span>·</span>
               <span>Curated by Jadoreshrey</span>
               <span>·</span>
@@ -488,6 +557,14 @@ export default function App() {
       <NewsletterModal
         isOpen={isNewsletterOpen}
         onClose={() => setIsNewsletterOpen(false)}
+      />
+
+      {/* BRAND SWITCHER STUDIO MODAL */}
+      <BrandSwitcherModal
+        isOpen={isBrandModalOpen}
+        onClose={() => setIsBrandModalOpen(false)}
+        currentBrand={brandName}
+        onSelectBrand={handleSelectBrand}
       />
     </div>
   );

@@ -179,8 +179,12 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
           className="flex-1 overflow-y-auto px-6 sm:px-12 py-8 space-y-6"
         >
           {/* Article Banner Graphic */}
-          <div className="w-full h-52 sm:h-64 rounded-2xl overflow-hidden border border-stone-200 shadow-xs">
-            <ArticleIllustration visualType={article.visualType} />
+          <div className="w-full h-52 sm:h-72 rounded-2xl overflow-hidden border border-stone-200 shadow-xs group">
+            <ArticleIllustration
+              visualType={article.visualType}
+              imageUrl={article.imageUrl}
+              alt={article.title}
+            />
           </div>
 
           {/* Headline & Metadata */}
@@ -269,7 +273,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
 
           {/* Medical/Financial Disclaimer */}
           <div className="pt-6 border-t border-stone-200 text-xs text-stone-500 italic leading-relaxed">
-            Bloom and Ledger shares general information for learning. It is not medical or financial advice. Talk to a
+            Slay & Scale shares general information for learning. It is not medical or financial advice. Talk to a
             doctor, dermatologist or licensed advisor for decisions about you.
           </div>
 
