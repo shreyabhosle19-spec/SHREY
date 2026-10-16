@@ -46,6 +46,38 @@ export default function App() {
     }
   };
 
+  // Check URL query param on mount and sync with popstate
+  useEffect(() => {
+    const checkUrlArticle = () => {
+      const params = new URLSearchParams(window.location.search);
+      const artId = params.get('article');
+      if (artId) {
+        const found = ARTICLES_DATA.find((a) => a.id === artId);
+        if (found) {
+          setActiveArticle(found);
+          return;
+        }
+      }
+      setActiveArticle(null);
+    };
+
+    checkUrlArticle();
+    window.addEventListener('popstate', checkUrlArticle);
+    return () => window.removeEventListener('popstate', checkUrlArticle);
+  }, []);
+
+  const handleOpenArticle = (art: Article | null) => {
+    setActiveArticle(art);
+    const url = new URL(window.location.href);
+    if (art) {
+      url.searchParams.set('article', art.id);
+      window.history.pushState({ articleId: art.id }, '', url.toString());
+    } else {
+      url.searchParams.delete('article');
+      window.history.pushState({}, '', url.toString());
+    }
+  };
+
   // Bookmark persistence in localStorage
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => {
     try {
@@ -311,7 +343,7 @@ export default function App() {
         {/* FEATURED LEAD ARTICLE (Horizontal Split) matching Screenshot */}
         {featuredArticle && (
           <div
-            onClick={() => setActiveArticle(featuredArticle)}
+            onClick={() => handleOpenArticle(featuredArticle)}
             className="group mb-8 bg-white border border-stone-200/90 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer grid grid-cols-1 md:grid-cols-2"
           >
             {/* Left Graphic / Photo */}
@@ -396,7 +428,7 @@ export default function App() {
               return (
                 <article
                   key={article.id}
-                  onClick={() => setActiveArticle(article)}
+                  onClick={() => handleOpenArticle(article)}
                   className="group bg-white border border-stone-200/90 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
                 >
                   {/* Top Illustration / Photo Area */}
@@ -444,6 +476,155 @@ export default function App() {
             })}
           </div>
         )}
+
+        {/* CURATED READING PATHWAYS (INTERNAL LINKS HUB) */}
+        <div className="mt-16 p-6 sm:p-8 rounded-3xl bg-white border border-stone-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-6 border-b border-stone-100">
+            <div>
+              <span className="text-xs uppercase tracking-wider font-semibold text-[#8B2547]">Connected Pathways</span>
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">
+                Curated Reading Sequences
+              </h3>
+            </div>
+            <p className="text-xs text-stone-500 max-w-xs">
+              Follow these internal guide sequences to build holistic habits step by step.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
+            {/* Pathway 1 */}
+            <div className="p-4 bg-[#FBF9F6] rounded-2xl border border-stone-200/80 flex flex-col justify-between">
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#5B7959]">
+                  01 · Morning Vitality Loop
+                </div>
+                <h4 className="font-serif text-sm font-semibold text-stone-900 mt-1">
+                  Start your day with calm energy
+                </h4>
+                <div className="space-y-1.5 mt-3">
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'morning-reset');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">1. Morning Reset (5 Min)</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'simple-skincare-routine');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">2. 4-Step Skincare</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'sunscreen-myths');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">3. Sunscreen Truths</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Pathway 2 */}
+            <div className="p-4 bg-[#FBF9F6] rounded-2xl border border-stone-200/80 flex flex-col justify-between">
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#D25372]">
+                  02 · Hormone & Sleep Flow
+                </div>
+                <h4 className="font-serif text-sm font-semibold text-stone-900 mt-1">
+                  Rebalance tired hormonal cycles
+                </h4>
+                <div className="space-y-1.5 mt-3">
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'sleep-night-routine');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">1. Build a Night Routine</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'know-your-cycle');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">2. Know Your 4 Phases</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'blood-checks-iron-b12');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">3. Essential Lab Checks</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Pathway 3 */}
+            <div className="p-4 bg-[#FBF9F6] rounded-2xl border border-stone-200/80 flex flex-col justify-between">
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#3D7D6A]">
+                  03 · Wealth & Founder Runway
+                </div>
+                <h4 className="font-serif text-sm font-semibold text-stone-900 mt-1">
+                  Budget, invest & bootstrap
+                </h4>
+                <div className="space-y-1.5 mt-3">
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'the-50-30-20-rule');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">1. 50/30/20 Rule for Life</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'start-investing-sips');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">2. SIP Compound Guide</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      const a = ARTICLES_DATA.find((x) => x.id === 'funding-startup-control');
+                      if (a) handleOpenArticle(a);
+                    }}
+                    className="w-full text-left p-2 rounded-xl bg-white border border-stone-200/80 hover:border-[#8B2547] text-xs font-medium text-stone-800 hover:text-[#8B2547] transition-all flex items-center justify-between group"
+                  >
+                    <span className="truncate">3. Non-Dilutive Funding</span>
+                    <ArrowUpRight className="w-3 h-3 text-stone-400 group-hover:text-[#8B2547] shrink-0" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* SUNDAY EDITION SIGNUP BANNER */}
         <div className="mt-16 p-8 sm:p-10 rounded-3xl bg-[#F6F1EB] border border-[#E9E2D8] flex flex-col md:flex-row items-center justify-between gap-6">
@@ -537,8 +718,8 @@ export default function App() {
       {/* ARTICLE READER MODAL */}
       <ArticleModal
         article={activeArticle}
-        onClose={() => setActiveArticle(null)}
-        onSelectArticle={(art) => setActiveArticle(art)}
+        onClose={() => handleOpenArticle(null)}
+        onSelectArticle={(art) => handleOpenArticle(art)}
         allArticles={ARTICLES_DATA}
         bookmarkedIds={bookmarkedIds}
         onToggleBookmark={(id) => toggleBookmark(id)}
@@ -549,7 +730,7 @@ export default function App() {
         isOpen={isSavedOpen}
         onClose={() => setIsSavedOpen(false)}
         savedArticles={savedArticles}
-        onSelectArticle={(art) => setActiveArticle(art)}
+        onSelectArticle={(art) => handleOpenArticle(art)}
         onRemoveBookmark={(id) => toggleBookmark(id)}
       />
 

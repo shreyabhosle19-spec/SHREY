@@ -16,6 +16,7 @@ export const ARTICLES_DATA: Article[] = [
     imageUrl: '/images/morning_reset_1792085484093.jpg',
     visualType: 'wellness-waves',
     interactiveTool: 'morning-reset',
+    relatedArticleIds: ['sleep-night-routine', 'simple-skincare-routine', 'know-your-cycle'],
     fullContent: {
       introduction: 'Every productivity influencer on the internet seems to demand an elaborate 90-minute morning ritual: ice baths, 45 minutes of breathwork, journaling three pages of gratitude, and drinking ceremonial matcha before the sun rises. For most women juggling work, families, and busy schedules, that is not sustainable—it is a recipe for guilt.',
       keyTakeaway: 'The best routine is the one you can complete even on your most exhausted Tuesday. Five minutes of deliberate nervous system regulation beats 90 minutes of an abandoned ideal every single time.',
@@ -24,7 +25,7 @@ export const ARTICLES_DATA: Article[] = [
           heading: 'Why Most Morning Routines Collapse',
           paragraphs: [
             'Routines fall apart when they require peak willpower. In the first ten minutes after waking, your prefrontal cortex is still transitioning out of sleep inertia. Asking yourself to make hard decisions or perform arduous tasks when cortisol is spiking sets off resistance.',
-            'Instead of adding tasks, a true morning reset is about removing friction and gently anchoring your nervous system before external demands flood your inbox.',
+            'Instead of adding tasks, a true morning reset is about removing friction and gently anchoring your nervous system before external demands flood your inbox. Remember: a smooth morning begins the night before—if you struggle with waking up drained, explore [Sleep Is Not a Luxury: Build a Night Routine](article:sleep-night-routine).',
           ],
         },
         {
@@ -40,8 +41,9 @@ export const ARTICLES_DATA: Article[] = [
           ],
         },
         {
-          heading: 'The Golden Rule: Phone Stays Asleep',
+          heading: 'The Skincare Connection & Phone Discipline',
           paragraphs: [
+            'Once your nervous system is calm, protect your skin barrier before screen exposure by pairing this morning reset with [A Simple Skincare Routine in Four Steps](article:simple-skincare-routine). If your energy levels fluctuate unpredictably across the weeks, check how your hormones change in [Know Your Cycle: What Changes Across the Month](article:know-your-cycle).',
             'If you touch your phone in the first five minutes, your attention is instantly surrendered to someone else’s crisis, algorithm, or urgent email. Give yourself 300 seconds of sovereignty first.',
           ],
           callout: 'Consistency does not require perfection. If you miss a morning, simply restart tomorrow without self-reproach.',
@@ -62,6 +64,7 @@ export const ARTICLES_DATA: Article[] = [
     },
     imageUrl: '/images/night_routine_1792085485135.jpg',
     visualType: 'wellness-sleep',
+    relatedArticleIds: ['morning-reset', 'know-your-cycle', 'blood-checks-iron-b12'],
     fullContent: {
       introduction: 'We wear sleep deprivation like a badge of resilience. We pride ourselves on getting through meetings on caffeine and adrenaline, telling ourselves we will catch up on the weekend. But female hormonal rhythms, memory consolidation, and cellular repair are acutely sensitive to chronic short sleep.',
       keyTakeaway: 'Sleep is not an optional reward for finishing your to-do list; it is the biological foundation that makes the rest of your life possible.',
@@ -70,7 +73,7 @@ export const ARTICLES_DATA: Article[] = [
           heading: 'The Biology of the Sleep Cliff',
           paragraphs: [
             'During deep slow-wave sleep and REM phases, the brain’s glymphatic system clears metabolic waste—including tau proteins and beta-amyloid plaques. When you sleep six hours instead of seven and a half, you truncate your final REM cycles, which are vital for emotional resilience and executive decision-making.',
-            'Furthermore, even two nights of partial sleep deprivation increase insulin resistance and elevate evening ghrelin (the hunger hormone), triggering intense sugar cravings the following afternoon.',
+            'Furthermore, even two nights of partial sleep deprivation increase insulin resistance and elevate evening ghrelin (the hunger hormone), triggering intense sugar cravings the following afternoon. If persistent tiredness plagues you even after 8 hours of sleep, do not ignore it: consult [Iron, Vitamin D and B12: Checks Worth Asking For](article:blood-checks-iron-b12).',
           ],
         },
         {
@@ -83,6 +86,12 @@ export const ARTICLES_DATA: Article[] = [
             'Cool down the bedroom: Lower the room temperature to 18–20°C (65–68°F). Your core body temperature must drop by 1°C to initiate deep sleep.',
             'Warm shower or bath: Stepping out of warm water dilates peripheral capillaries, causing rapid internal cooling that induces drowsiness naturally.',
             'The "Brain Dump": Write down tomorrow’s worries and tasks on an analog notepad. Externalizing them relieves cognitive loops.',
+          ],
+        },
+        {
+          heading: 'Morning Momentum Starts at Night',
+          paragraphs: [
+            'A restful night makes our 5-minute morning anchor effortless. Continue into your day with [A Five Minute Morning Reset That Actually Sticks](article:morning-reset) and align your sleep needs with [Know Your Cycle: What Changes Across the Month](article:know-your-cycle).',
           ],
         },
       ],
@@ -102,6 +111,7 @@ export const ARTICLES_DATA: Article[] = [
     imageUrl: '/images/cycle_health_1792085485518.jpg',
     visualType: 'health-pulse',
     interactiveTool: 'cycle-guide',
+    relatedArticleIds: ['blood-checks-iron-b12', 'sleep-night-routine', 'morning-reset'],
     fullContent: {
       introduction: 'For decades, human clinical trials treated male physiology as the default standard because hormonal fluctuations were deemed "too noisy." The reality? Women operate on an infradian rhythm—a 28-to-32 day hormonal rhythm that influences brain chemistry, metabolism, stress tolerance, and immune function.',
       keyTakeaway: 'When you understand the distinct hormonal phases of your month, you stop fighting your natural energy shifts and begin working in alignment with them.',
@@ -119,10 +129,10 @@ export const ARTICLES_DATA: Article[] = [
           ],
         },
         {
-          heading: 'Adapting Work and Nutrition',
+          heading: 'Adapting Work, Nutrition & Diagnostics',
           paragraphs: [
-            'During the late luteal phase, many women experience irritability or brain fog. This is often not a personal flaw—it is a physiological call for complex carbohydrates and magnesium to synthesize serotonin.',
-            'By tracking your cycle day instead of expecting identical 24-hour robotic productivity, you will experience significantly less burnout.',
+            'During the late luteal phase, many women experience irritability or brain fog. This is often not a personal flaw—it is a physiological call for complex carbohydrates and magnesium to synthesize serotonin. Prioritize rest with [Sleep Is Not a Luxury: Build a Night Routine](article:sleep-night-routine).',
+            'Heavy menstruation is also the single leading cause of iron deficiency anemia in adult women. If you feel perpetually exhausted during your follicular transition, ask your doctor for the tests outlined in [Iron, Vitamin D and B12: Checks Worth Asking For](article:blood-checks-iron-b12).',
           ],
         },
       ],
@@ -142,6 +152,7 @@ export const ARTICLES_DATA: Article[] = [
     imageUrl: '/images/blood_checks_1792085485544.jpg',
     visualType: 'health-labs',
     interactiveTool: 'lab-checklist',
+    relatedArticleIds: ['know-your-cycle', 'sleep-night-routine', 'simple-skincare-routine'],
     fullContent: {
       introduction: 'How often have you told a friend or doctor: "I am just exhausted because work has been busy"? While modern schedules are undeniably demanding, chronic afternoon slumps, cold hands, hair shedding, and brain fog are frequently nutritional deficiencies that are completely reversible.',
       keyTakeaway: 'Never accept chronic exhaustion as your permanent baseline. Simple, inexpensive blood markers can reveal whether your cells are starving for essential micronutrients.',
@@ -150,20 +161,20 @@ export const ARTICLES_DATA: Article[] = [
           heading: '1. Ferritin (The True Iron Reserve)',
           paragraphs: [
             'Standard blood panels often only check complete blood count (hemoglobin). You can have completely normal hemoglobin while your ferritin (the body’s cellular iron storage) is on empty.',
-            'While laboratory reference ranges often deem 15 ng/mL "normal", many women experience fatigue, restless legs, and brittle nails until their ferritin exceeds 50–70 ng/mL.',
+            'While laboratory reference ranges often deem 15 ng/mL "normal", many women experience fatigue, restless legs, and brittle nails until their ferritin exceeds 50–70 ng/mL. Iron fluctuations correlate closely with monthly blood loss, as discussed in [Know Your Cycle: What Changes Across the Month](article:know-your-cycle).',
           ],
         },
         {
-          heading: '2. 25-Hydroxy Vitamin D',
+          heading: '2. 25-Hydroxy Vitamin D & Nervous System Support',
           paragraphs: [
-            'Vitamin D is not merely a vitamin; it acts as a steroid pre-hormone with receptors in virtually every tissue. Even in sunny climates, indoor desk jobs mean up to 70% of urban women are deficient or insufficient.',
-            'Optimal levels for immune resilience and bone density sit between 40 and 60 ng/mL.',
+            'Vitamin D acts as a steroid pre-hormone with receptors in virtually every tissue. Even in sunny climates, indoor desk jobs mean up to 70% of urban women are deficient or insufficient.',
+            'Optimal levels for immune resilience and bone density sit between 40 and 60 ng/mL. Pairing healthy vitamin levels with restorative rest in [Sleep Is Not a Luxury: Build a Night Routine](article:sleep-night-routine) produces noticeable mental clarity within weeks.',
           ],
         },
         {
           heading: '3. Vitamin B12 and Folate',
           paragraphs: [
-            'Essential for myelin sheath protection around nerves and healthy red blood cell synthesis. If you follow a vegetarian or vegan lifestyle, or take acid-suppressing medication, regular testing is critical.',
+            'Essential for myelin sheath protection around nerves and healthy red blood cell synthesis. When nutritional foundations are strong, your skin barrier flourishes naturally—learn how to nourish it externally in [A Simple Skincare Routine in Four Steps](article:simple-skincare-routine).',
           ],
         },
       ],
@@ -183,33 +194,23 @@ export const ARTICLES_DATA: Article[] = [
     imageUrl: '/images/skincare_routine_1792085485682.jpg',
     visualType: 'skincare-drops',
     interactiveTool: 'skincare-builder',
+    relatedArticleIds: ['sunscreen-myths', 'morning-reset', 'blood-checks-iron-b12'],
     fullContent: {
       introduction: 'The beauty industry makes billions convincing us that healthy skin requires a 10-step morning ritual, Korean essences, snail mucin, and three different acid toners. But dermatologists and cosmetic chemists agree: layering too many active ingredients damages your moisture barrier and causes contact dermatitis.',
       keyTakeaway: 'Great skin is the result of barrier support, consistent sun protection, and patient use of one or two targeted actives. Simplicity wins.',
       sections: [
         {
-          heading: 'Step 1: Gentle Cleansing',
+          heading: 'Step 1: Gentle Cleansing & Step 2: Targeted Treatment',
           paragraphs: [
-            'Your skin barrier is composed of ceramides, cholesterol, and free fatty acids. Harsh stripping cleansers that leave skin feeling squeaky tight actually rupture this delicate lipid matrix.',
-            'Use a pH-balanced, fragrance-free cleanser that dissolves oil without stripping water.',
-          ],
-        },
-        {
-          heading: 'Step 2: Targeted Treatment (Actives)',
-          paragraphs: [
+            'Your skin barrier is composed of ceramides, cholesterol, and free fatty acids. Harsh stripping cleansers that leave skin feeling squeaky tight actually rupture this delicate lipid matrix. Incorporate cleansing into your morning mindfulness with [A Five Minute Morning Reset That Actually Sticks](article:morning-reset).',
             'Choose ONE primary active for the morning (e.g. Vitamin C or Niacinamide for antioxidant protection and brightening) and ONE for the evening (e.g. Retinoid or gentle exfoliating acid).',
           ],
         },
         {
-          heading: 'Step 3: Moisturize to Seal',
+          heading: 'Step 3: Moisturize to Seal & Step 4: Protect',
           paragraphs: [
             'A good moisturizer combines humectants (to draw water in) with emollients and occlusives (to prevent transepidermal water loss).',
-          ],
-        },
-        {
-          heading: 'Step 4: Protect (Non-Negotiable)',
-          paragraphs: [
-            'Every dermatologist will tell you: without broad-spectrum SPF, all other skincare is wasted money. UV radiation accounts for 80% of visible skin aging.',
+            'Every dermatologist will tell you: without broad-spectrum SPF, all other skincare is wasted money. UV radiation accounts for 80% of visible skin aging. To learn how much SPF you truly need, read [Sunscreen Myths We Need to Retire](article:sunscreen-myths).',
           ],
         },
       ],
@@ -228,6 +229,7 @@ export const ARTICLES_DATA: Article[] = [
     },
     imageUrl: '/images/sunscreen_guide_1792085487512.jpg',
     visualType: 'skincare-sun',
+    relatedArticleIds: ['simple-skincare-routine', 'morning-reset', 'women-founders-brand-trust'],
     fullContent: {
       introduction: 'Sunscreen is arguably the most extensively tested and effective cosmetic formulation in modern dermatology. Yet myths around toxicity, white cast, and indoor safety persist across social media.',
       keyTakeaway: 'The best sunscreen is simply the one you genuinely enjoy wearing every morning without feeling greasy.',
@@ -236,7 +238,7 @@ export const ARTICLES_DATA: Article[] = [
           heading: 'Myth 1: "I am inside near a window, so I don\'t need SPF"',
           paragraphs: [
             'Standard window glass blocks UVB rays (the burning rays), but allows more than 60% of UVA rays (the aging and hyperpigmentation rays) to pass right through.',
-            'If you sit within 3 meters of a sunny window or drive a car regularly, UVA reaches your dermis throughout the day.',
+            'If you sit within 3 meters of a sunny window or drive a car regularly, UVA reaches your dermis throughout the day. Make daily application seamless with [A Simple Skincare Routine in Four Steps](article:simple-skincare-routine).',
           ],
         },
         {
@@ -249,7 +251,7 @@ export const ARTICLES_DATA: Article[] = [
         {
           heading: 'Myth 3: "Chemical sunscreens are inherently toxic"',
           paragraphs: [
-            'Modern chemical filters approved in Europe and Asia (such as Tinosorb S, Tinosorb M, and Uvinul A Plus) are highly photostable, non-irritating, and offer exceptional broad-spectrum shielding without white cast.',
+            'Modern chemical filters approved in Europe and Asia (such as Tinosorb S, Tinosorb M, and Uvinul A Plus) are highly photostable, non-irritating, and offer exceptional broad-spectrum shielding without white cast. In fact, many new indie brands are founded on modern sunscreen transparency—see [Women Founders: Building a Brand People Trust](article:women-founders-brand-trust).',
           ],
         },
       ],
@@ -269,6 +271,7 @@ export const ARTICLES_DATA: Article[] = [
     imageUrl: '/images/budget_rule_1792085487140.jpg',
     visualType: 'finance-bars',
     interactiveTool: 'budget-calc',
+    relatedArticleIds: ['start-investing-sips', 'funding-startup-control', 'women-founders-brand-trust'],
     fullContent: {
       introduction: 'Popularized by Elizabeth Warren, the 50/30/20 budget framework divides your after-tax income into three buckets: 50% for Needs, 30% for Wants, and 20% for Savings and Debt Repayment. It sounds neat on paper. But what happens when rent alone consumes 45% of your paycheck in a major metropolitan city?',
       keyTakeaway: 'Budgeting frameworks should serve as guiding compasses, not rigid straightjackets. Modify the percentages to fit your city and phase of life.',
@@ -277,14 +280,14 @@ export const ARTICLES_DATA: Article[] = [
           heading: 'The Modern Urban Adaptation: 60/20/20',
           paragraphs: [
             'In cities with sky-high housing costs, fitting rent, groceries, transit, and health insurance into 50% is mathematically impossible for many young professionals.',
-            'Instead of giving up on budgeting altogether, shift to 60% Needs, 20% Wants, and protect your 20% Savings. Keeping your savings rate firm ensures your future self is not paying for current rent spikes.',
+            'Instead of giving up on budgeting altogether, shift to 60% Needs, 20% Wants, and protect your 20% Savings. Wondering where to put that 20% savings bucket? Automate compounding wealth with [Start Investing Small: A Beginner Guide to SIPs](article:start-investing-sips).',
           ],
         },
         {
           heading: 'Defining "Needs" vs. "Wants" Honestly',
           paragraphs: [
             'A gym membership that preserves your mental sanity? That might be a high-value necessity. Ordering takeout delivery three nights a week because cooking feels daunting? That is a convenience want.',
-            'Give yourself permission to spend guilt-free on your designated Wants, provided your automated 20% transfers have already left your account on payday.',
+            'Give yourself permission to spend guilt-free on your designated Wants, provided your automated 20% transfers have already left your account on payday. If you dream of launching your own venture with savings, read [Funding Your Startup Without Giving Up Control](article:funding-startup-control).',
           ],
         },
       ],
@@ -304,6 +307,7 @@ export const ARTICLES_DATA: Article[] = [
     imageUrl: '/images/sip_investing_1792085487747.jpg',
     visualType: 'finance-growth',
     interactiveTool: 'sip-calc',
+    relatedArticleIds: ['the-50-30-20-rule', 'funding-startup-control', 'women-founders-brand-trust'],
     fullContent: {
       introduction: 'The single most common mistake women make with money is waiting until they have a "large lump sum" before they start investing. In the meantime, hard-earned cash sits in low-interest savings accounts losing purchasing power to inflation every single year.',
       keyTakeaway: 'A Systematic Investment Plan (SIP) allows you to automate investing small amounts every single month, letting compound interest and rupee-cost averaging work for you over decades.',
@@ -311,7 +315,7 @@ export const ARTICLES_DATA: Article[] = [
         {
           heading: 'The Power of Dollar-Cost Averaging',
           paragraphs: [
-            'When you set up an automated monthly SIP into a low-cost broad-market index fund, you never have to guess or time the market.',
+            'When you set up an automated monthly SIP into a low-cost broad-market index fund, you never have to guess or time the market. First establish your investable monthly surplus using [The 50 30 20 Rule, Adjusted for Real Life](article:the-50-30-20-rule).',
             'When stock prices fall, your fixed monthly allocation buys more units. When prices rise, it buys fewer. Over a 5 to 10 year window, this dramatically smooths out volatility and removes emotional panic.',
           ],
         },
@@ -319,7 +323,7 @@ export const ARTICLES_DATA: Article[] = [
           heading: 'Compound Growth in Action',
           paragraphs: [
             'Consider two investors: Maya starts investing $150 a month at age 25. Zara waits until age 35 and invests $300 a month. By age 55, Maya has accumulated significantly more wealth despite contributing less total capital out of pocket.',
-            'Time in the market always beats timing the market.',
+            'Time in the market always beats timing the market. As your wealth grows, you gain the autonomy to fund side projects without outside pressure—read [Funding Your Startup Without Giving Up Control](article:funding-startup-control).',
           ],
         },
       ],
@@ -338,6 +342,7 @@ export const ARTICLES_DATA: Article[] = [
     },
     imageUrl: '/images/startup_funding_1792085488920.jpg',
     visualType: 'startup-launch',
+    relatedArticleIds: ['women-founders-brand-trust', 'the-50-30-20-rule', 'start-investing-sips'],
     fullContent: {
       introduction: 'Tech media glorifies massive venture capital seed rounds with oversized checks and splashy PR headlines. What they rarely discuss is the loss of board control, the relentless pressure for 10x growth at the expense of profitability, and founder dilution that leaves creators with single-digit equity at exit.',
       keyTakeaway: 'Venture capital is fuel for specific hyper-scale business models. For many sustainable businesses, customer revenue and non-dilutive capital offer unmatched freedom.',
@@ -354,9 +359,10 @@ export const ARTICLES_DATA: Article[] = [
           ],
         },
         {
-          heading: 'Retaining Governance and Vision',
+          heading: 'Retaining Governance and Building Organic Demand',
           paragraphs: [
-            'Maintaining majority ownership allows you to make decisions based on customer delight and long-term durability rather than artificial quarterly milestones dictated by fund cycles.',
+            'Maintaining majority ownership allows you to make decisions based on customer delight and long-term durability rather than artificial quarterly milestones dictated by fund cycles. Organic demand is driven by authentic customer relationships—learn the blueprint in [Women Founders: Building a Brand People Trust](article:women-founders-brand-trust).',
+            'Before stepping into full-time entrepreneurship, safeguard your personal finances using [The 50 30 20 Rule, Adjusted for Real Life](article:the-50-30-20-rule) and [Start Investing Small: A Beginner Guide to SIPs](article:start-investing-sips).',
           ],
         },
       ],
@@ -375,6 +381,7 @@ export const ARTICLES_DATA: Article[] = [
     },
     imageUrl: '/images/women_brand_1792085489016.jpg',
     visualType: 'startup-brand',
+    relatedArticleIds: ['funding-startup-control', 'the-50-30-20-rule', 'start-investing-sips'],
     fullContent: {
       introduction: 'In a digital ecosystem saturated with hyper-optimized advertising, deepfakes, and disposable consumer goods, consumers are exhausted. They do not buy merely for utility anymore—they buy from people and businesses whose values and transparency they trust implicitly.',
       keyTakeaway: 'Brand trust is built in drops and lost in buckets. For early-stage founders, radical transparency and responsive human care out-compete multi-million dollar ad budgets.',
@@ -394,6 +401,7 @@ export const ARTICLES_DATA: Article[] = [
           heading: 'The Lifetime Value of Trust',
           paragraphs: [
             'When customers trust you, their retention rate surges, your customer acquisition cost (CAC) declines through word-of-mouth recommendations, and your brand develops genuine cultural staying power.',
+            'A trusted brand allows you to bootstrap profitably on your own terms—discover how in [Funding Your Startup Without Giving Up Control](article:funding-startup-control) and maintain personal runway with [The 50 30 20 Rule](article:the-50-30-20-rule).',
           ],
         },
       ],

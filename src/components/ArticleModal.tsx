@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Bookmark, Share2, Check, ArrowLeft, ArrowRight, Clock, Calendar, Sparkles } from 'lucide-react';
+import { X, Bookmark, Share2, Check, ArrowLeft, ArrowRight, ArrowUpRight, Clock, Calendar, Sparkles, Compass, Link2 } from 'lucide-react';
 import { Article } from '../types';
 import { ArticleIllustration } from './ArticleIllustration';
 import {
@@ -66,7 +66,9 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
 
   const handleShare = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
+      const url = new URL(window.location.origin + window.location.pathname);
+      url.searchParams.set('article', article.id);
+      navigator.clipboard.writeText(url.toString());
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -79,6 +81,51 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
     Finance: 'text-[#3D7D6A]',
     Startups: 'text-[#5A56A8]',
   }[article.category];
+
+  const relatedArticles = allArticles.filter((a) =>
+    article.relatedArticleIds?.includes(a.id)
+  );
+
+  // Helper to parse and render markdown-style internal links: [Label](article:article-id)
+  const renderFormattedText = (text: string) => {
+    const regex = /\[([^\]]+)\]\(article:([^)]+)\)/g;
+    const parts: (string | React.ReactNode)[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(text.substring(lastIndex, match.index));
+      }
+      const label = match[1];
+      const targetId = match[2];
+      const targetArticle = allArticles.find((a) => a.id === targetId);
+
+      parts.push(
+        <button
+          key={`${targetId}-${match.index}`}
+          type="button"
+          onClick={() => {
+            if (targetArticle) {
+              onSelectArticle(targetArticle);
+            }
+          }}
+          className="inline-flex items-center gap-1 font-semibold text-[#8B2547] underline underline-offset-3 decoration-[#8B2547]/40 hover:decoration-[#8B2547] hover:bg-[#F7E7EC] px-1 py-0.5 rounded transition-all cursor-pointer text-left mx-0.5 align-baseline"
+          title={targetArticle ? `Internal link to: ${targetArticle.title}` : label}
+        >
+          <span>{label}</span>
+          <ArrowUpRight className="w-3 h-3 inline-block stroke-[2.5] shrink-0" />
+        </button>
+      );
+      lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex));
+    }
+
+    return parts.length > 0 ? parts : text;
+  };
 
   return (
     <div
@@ -229,7 +276,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
           >
             {/* Opening with Drop Cap */}
             <p className="first-letter:text-4xl first-letter:font-serif first-letter:font-bold first-letter:float-left first-letter:mr-2.5 first-letter:text-[#8B2547] first-letter:leading-none">
-              {article.fullContent.introduction}
+              {renderFormattedText(article.fullContent.introduction)}
             </p>
 
             {/* In-Article Interactive Tool if available */}
@@ -250,26 +297,72 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
                 )}
                 {sec.paragraphs.map((p, pIdx) => (
                   <p key={pIdx} className="text-stone-700 leading-relaxed">
-                    {p}
+                    {renderFormattedText(p)}
                   </p>
                 ))}
                 {sec.bulletPoints && (
                   <ul className="space-y-2 pl-4 list-disc marker:text-[#8B2547] text-stone-700">
                     {sec.bulletPoints.map((b, bIdx) => (
                       <li key={bIdx} className="leading-relaxed">
-                        {b}
+                        {renderFormattedText(b)}
                       </li>
                     ))}
                   </ul>
                 )}
                 {sec.callout && (
                   <div className="p-4 bg-white rounded-xl border border-stone-200 text-stone-800 text-sm italic font-serif my-3">
-                    {sec.callout}
+                    {renderFormattedText(sec.callout)}
                   </div>
                 )}
               </div>
             ))}
           </div>
+
+          {/* Connected Guides / Related Internal Links Section */}
+          {relatedArticles.length > 0 && (
+            <div className="pt-8 pb-2 border-t border-stone-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Compass className="w-4 h-4 text-[#8B2547]" />
+                  <h4 className="font-serif text-lg font-bold text-stone-900">Connected Guides</h4>
+                </div>
+                <span className="text-[11px] text-stone-500 font-mono flex items-center gap-1">
+                  <Link2 className="w-3 h-3 text-[#8B2547]" /> Cross-Reference
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {relatedArticles.map((rel) => (
+                  <div
+                    key={rel.id}
+                    onClick={() => onSelectArticle(rel)}
+                    className="p-3 bg-white rounded-2xl border border-stone-200 hover:border-[#8B2547] hover:shadow-xs transition-all cursor-pointer flex flex-col justify-between group"
+                  >
+                    <div>
+                      <div className="w-full h-24 rounded-xl overflow-hidden bg-stone-100 mb-2.5">
+                        <ArticleIllustration
+                          visualType={rel.visualType}
+                          imageUrl={rel.imageUrl}
+                          alt={rel.title}
+                        />
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#8B2547]">
+                        {rel.category}
+                      </span>
+                      <h5 className="font-serif text-xs font-semibold text-stone-900 group-hover:text-[#8B2547] transition-colors line-clamp-2 mt-1 leading-snug">
+                        {rel.title}
+                      </h5>
+                    </div>
+                    <div className="mt-3 pt-2 border-t border-stone-100 flex items-center justify-between text-[11px]">
+                      <span className="text-stone-400 font-mono">{rel.readTime}</span>
+                      <span className="text-[#8B2547] font-medium flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                        Read <ArrowUpRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Medical/Financial Disclaimer */}
           <div className="pt-6 border-t border-stone-200 text-xs text-stone-500 italic leading-relaxed">

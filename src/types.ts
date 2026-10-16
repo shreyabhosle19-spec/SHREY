@@ -22,6 +22,7 @@ export interface Article {
   imageUrl?: string;
   visualType: 'wellness-waves' | 'wellness-sleep' | 'health-pulse' | 'health-labs' | 'skincare-drops' | 'skincare-sun' | 'finance-bars' | 'finance-growth' | 'startup-launch' | 'startup-brand';
   interactiveTool?: 'morning-reset' | 'sleep-winddown' | 'cycle-guide' | 'lab-checklist' | 'skincare-builder' | 'sunscreen-guide' | 'budget-calc' | 'sip-calc' | 'funding-matrix' | 'brand-trust';
+  relatedArticleIds?: string[];
   fullContent: {
     introduction: string;
     keyTakeaway: string;
