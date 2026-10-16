@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Bookmark, Share2, Check, ArrowLeft, ArrowRight, ArrowUpRight, Clock, Calendar, Sparkles, Compass, Link2 } from 'lucide-react';
 import { Article } from '../types';
 import { ArticleIllustration } from './ArticleIllustration';
+import { AppLink } from './AppLink';
+import { getArticleUrl, getCategoryUrl } from '../utils/routes';
 import {
   MorningResetTool,
   BudgetCalculatorTool,
@@ -66,8 +68,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
 
   const handleShare = () => {
     if (navigator.clipboard) {
-      const url = new URL(window.location.origin + window.location.pathname);
-      url.searchParams.set('article', article.id);
+      const url = new URL(window.location.origin + getArticleUrl(article.id));
       navigator.clipboard.writeText(url.toString());
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -102,9 +103,9 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
       const targetArticle = allArticles.find((a) => a.id === targetId);
 
       parts.push(
-        <button
+        <AppLink
           key={`${targetId}-${match.index}`}
-          type="button"
+          to={getArticleUrl(targetId)}
           onClick={() => {
             if (targetArticle) {
               onSelectArticle(targetArticle);
@@ -114,8 +115,9 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
           title={targetArticle ? `Internal link to: ${targetArticle.title}` : label}
         >
           <span>{label}</span>
-          <ArrowUpRight className="w-3 h-3 inline-block stroke-[2.5] shrink-0" />
-        </button>
+          <ArrowUpRight className="w-3 h-3 inline-block stroke-[2.5] shrink-0" aria-hidden="true" />
+          <span className="sr-only">Read internal guide: {targetArticle?.title || label}</span>
+        </AppLink>
       );
       lastIndex = regex.lastIndex;
     }
@@ -139,24 +141,30 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
         {/* Top reading progress line */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-stone-200 z-30">
           <div
-            className="h-full bg-[#8B2547] transition-all duration-75"
+            className="h-full bg-[#8B2547] transition-all duration-150"
             style={{ width: `${scrollProgress}%` }}
           />
         </div>
 
-        {/* Modal Header controls */}
-        <div className="px-6 py-4 border-b border-stone-200/80 bg-[#FAF8F5]/90 backdrop-blur-md flex items-center justify-between shrink-0 z-20">
-          <div className="flex items-center gap-2">
-            <span className={`text-xs font-semibold uppercase tracking-wider ${categoryColorClass}`}>
-              {article.category}
+        {/* Modal Top Bar: Category Pill & Actions */}
+        <div className="px-6 sm:px-8 py-4 border-b border-stone-200/80 flex items-center justify-between gap-4 bg-[#FAF8F5]/90 backdrop-blur-sm z-20">
+          <div className="flex items-center gap-3">
+            <AppLink
+              to={getCategoryUrl(article.category)}
+              onClick={onClose}
+              className={`text-xs font-semibold uppercase tracking-wider ${categoryColorClass} hover:opacity-80 transition-opacity`}
+            >
+              <span>{article.category} Section</span>
+            </AppLink>
+            <span className="text-stone-300 font-mono">/</span>
+            <span className="text-xs text-stone-500 font-mono hidden sm:inline">
+              {article.readTime}
             </span>
-            <span className="text-stone-300">·</span>
-            <span className="text-xs text-stone-500 font-mono">{article.readTime}</span>
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Font size toggle */}
-            <div className="hidden sm:flex items-center bg-stone-100 rounded-lg p-0.5 border border-stone-200">
+            {/* Font size control */}
+            <div className="flex items-center bg-stone-100 rounded-xl p-1 border border-stone-200/80 mr-1">
               <button
                 onClick={() => setFontSize('normal')}
                 className={`px-2 py-1 text-xs rounded-md transition-colors ${
@@ -191,31 +199,38 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
               onClick={() => onToggleBookmark(article.id)}
               className={`p-2 rounded-xl transition-colors border ${
                 isBookmarked
-                  ? 'bg-[#F7E7EC] border-[#8B2547] text-[#8B2547]'
-                  : 'bg-white border-stone-200 text-stone-600 hover:text-stone-900 hover:border-stone-300'
+                  ? 'bg-[#F7E7EC] border-[#8B2547]/30 text-[#8B2547]'
+                  : 'bg-white border-stone-200 text-stone-600 hover:text-stone-900'
               }`}
-              title={isBookmarked ? 'Remove from saved' : 'Save article'}
+              title={isBookmarked ? 'Remove bookmark' : 'Bookmark this article'}
             >
               <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
             </button>
 
-            {/* Share */}
+            {/* Share link with unique clean URL */}
             <button
               onClick={handleShare}
-              className="p-2 rounded-xl bg-white border border-stone-200 text-stone-600 hover:text-stone-900 hover:border-stone-300 transition-colors relative"
-              title="Share article"
+              className="p-2 rounded-xl bg-white border border-stone-200 text-stone-600 hover:text-stone-900 transition-colors relative"
+              title="Copy clean article link"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
+              {copied && (
+                <span className="absolute -bottom-8 right-0 bg-stone-900 text-white text-[10px] px-2 py-0.5 rounded shadow-lg whitespace-nowrap animate-fade-in">
+                  Link copied!
+                </span>
+              )}
             </button>
 
-            {/* Close */}
-            <button
+            {/* Close modal link back to category */}
+            <AppLink
+              to={getCategoryUrl(article.category)}
               onClick={onClose}
-              className="p-2 rounded-xl bg-white border border-stone-200 text-stone-600 hover:text-stone-900 hover:border-stone-300 transition-colors"
-              title="Close (Esc)"
+              className="p-2 rounded-xl bg-white border border-stone-200 text-stone-400 hover:text-stone-800 transition-colors"
+              title="Close article and return to library"
             >
-              <X className="w-4 h-4" />
-            </button>
+              <X className="w-4 h-4" aria-hidden="true" />
+              <span className="sr-only">Close article</span>
+            </AppLink>
           </div>
         </div>
 
@@ -244,26 +259,27 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
             </p>
 
             <div className="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-stone-200/80 text-xs text-stone-500">
-              <span className="font-medium text-stone-900">{article.author.name}</span>
+              <span className="font-medium text-stone-900">
+                {article.author.name} · {article.author.role}
+              </span>
               <span>·</span>
-              <span>{article.author.role}</span>
-              <span>·</span>
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1 font-mono">
                 <Calendar className="w-3.5 h-3.5" /> {article.publishedDate}
               </span>
               <span>·</span>
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1 font-mono">
                 <Clock className="w-3.5 h-3.5" /> {article.readTime}
               </span>
             </div>
           </div>
 
-          {/* Key Takeaway Card */}
-          <div className="p-5 bg-[#F6F4EF] rounded-2xl border border-stone-200/90">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8B2547] uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" /> Key Takeaway
+          {/* Key Editorial Takeaway Pill Box */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#F6EFE9] border border-[#E8DDCE]">
+            <div className="text-[11px] font-bold tracking-wider text-[#8B2547] uppercase flex items-center gap-1.5 mb-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#8B2547]" />
+              The Central Principle
             </div>
-            <p className="text-sm font-serif text-stone-800 leading-relaxed mt-1.5 font-medium">
+            <p className="font-serif text-sm sm:text-base text-stone-800 italic leading-relaxed">
               "{article.fullContent.keyTakeaway}"
             </p>
           </div>
@@ -327,13 +343,14 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
                   <h4 className="font-serif text-lg font-bold text-stone-900">Connected Guides</h4>
                 </div>
                 <span className="text-[11px] text-stone-500 font-mono flex items-center gap-1">
-                  <Link2 className="w-3 h-3 text-[#8B2547]" /> Cross-Reference
+                  <Link2 className="w-3 h-3 text-[#8B2547]" /> Internal Cross-Reference
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {relatedArticles.map((rel) => (
-                  <div
+                  <AppLink
                     key={rel.id}
+                    to={getArticleUrl(rel.id)}
                     onClick={() => onSelectArticle(rel)}
                     className="p-3 bg-white rounded-2xl border border-stone-200 hover:border-[#8B2547] hover:shadow-xs transition-all cursor-pointer flex flex-col justify-between group"
                   >
@@ -355,10 +372,10 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
                     <div className="mt-3 pt-2 border-t border-stone-100 flex items-center justify-between text-[11px]">
                       <span className="text-stone-400 font-mono">{rel.readTime}</span>
                       <span className="text-[#8B2547] font-medium flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
-                        Read <ArrowUpRight className="w-3 h-3" />
+                        <span>Read guide: {rel.title}</span> <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
                       </span>
                     </div>
-                  </div>
+                  </AppLink>
                 ))}
               </div>
             </div>
@@ -370,32 +387,38 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
             doctor, dermatologist or licensed advisor for decisions about you.
           </div>
 
-          {/* Next / Prev Navigation */}
+          {/* Next / Prev Semantic Navigation Links */}
           <div className="pt-6 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {prevArticle ? (
-              <button
+              <AppLink
+                to={getArticleUrl(prevArticle.id)}
                 onClick={() => onSelectArticle(prevArticle)}
                 className="p-3 bg-white rounded-xl border border-stone-200 hover:border-stone-300 text-left transition-colors flex items-center gap-3 group"
               >
-                <ArrowLeft className="w-4 h-4 text-stone-400 group-hover:text-stone-700 shrink-0" />
+                <ArrowLeft className="w-4 h-4 text-stone-400 group-hover:text-stone-700 shrink-0" aria-hidden="true" />
                 <div className="overflow-hidden">
                   <div className="text-[11px] text-stone-400 uppercase font-medium">Previous Read</div>
-                  <div className="text-xs font-serif font-medium text-stone-900 truncate">{prevArticle.title}</div>
+                  <div className="text-xs font-serif font-medium text-stone-900 truncate">
+                    Read previous article: {prevArticle.title}
+                  </div>
                 </div>
-              </button>
+              </AppLink>
             ) : <div />}
 
             {nextArticle && (
-              <button
+              <AppLink
+                to={getArticleUrl(nextArticle.id)}
                 onClick={() => onSelectArticle(nextArticle)}
                 className="p-3 bg-white rounded-xl border border-stone-200 hover:border-stone-300 text-right transition-colors flex items-center justify-end gap-3 group"
               >
                 <div className="overflow-hidden">
                   <div className="text-[11px] text-stone-400 uppercase font-medium">Next Read</div>
-                  <div className="text-xs font-serif font-medium text-stone-900 truncate">{nextArticle.title}</div>
+                  <div className="text-xs font-serif font-medium text-stone-900 truncate">
+                    Read next article: {nextArticle.title}
+                  </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-stone-700 shrink-0" />
-              </button>
+                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-stone-700 shrink-0" aria-hidden="true" />
+              </AppLink>
             )}
           </div>
         </div>

@@ -2,6 +2,8 @@ import React from 'react';
 import { X, Bookmark, Trash2, ArrowRight } from 'lucide-react';
 import { Article } from '../types';
 import { ArticleIllustration } from './ArticleIllustration';
+import { AppLink } from './AppLink';
+import { getArticleUrl } from '../utils/routes';
 
 interface SavedArticlesModalProps {
   isOpen: boolean;
@@ -38,6 +40,7 @@ export const SavedArticlesModal: React.FC<SavedArticlesModalProps> = ({
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+            aria-label="Close saved articles drawer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -67,12 +70,13 @@ export const SavedArticlesModal: React.FC<SavedArticlesModalProps> = ({
                     alt={article.title}
                   />
                 </div>
-                <div
-                  className="flex-1 min-w-0 cursor-pointer"
+                <AppLink
+                  to={getArticleUrl(article.id)}
                   onClick={() => {
                     onSelectArticle(article);
                     onClose();
                   }}
+                  className="flex-1 min-w-0"
                 >
                   <div className="text-[11px] font-semibold uppercase tracking-wider text-[#8B2547]">
                     {article.category}
@@ -81,23 +85,27 @@ export const SavedArticlesModal: React.FC<SavedArticlesModalProps> = ({
                     {article.title}
                   </h4>
                   <div className="text-[11px] text-stone-500 mt-0.5 font-mono">{article.readTime}</div>
-                </div>
+                  <span className="sr-only">Read saved article: {article.title}</span>
+                </AppLink>
 
                 <div className="flex items-center gap-1 shrink-0">
-                  <button
+                  <AppLink
+                    to={getArticleUrl(article.id)}
                     onClick={() => {
                       onSelectArticle(article);
                       onClose();
                     }}
                     className="p-2 text-stone-400 hover:text-stone-800 transition-colors"
-                    title="Read now"
+                    title={`Read ${article.title}`}
                   >
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    <span className="sr-only">Read now: {article.title}</span>
+                  </AppLink>
                   <button
                     onClick={() => onRemoveBookmark(article.id)}
                     className="p-2 text-stone-400 hover:text-rose-600 transition-colors"
                     title="Remove from saved"
+                    aria-label={`Remove ${article.title} from saved`}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

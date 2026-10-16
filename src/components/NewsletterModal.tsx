@@ -35,6 +35,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ isOpen, onClos
         <button
           onClick={onClose}
           className="absolute top-5 right-5 p-1.5 rounded-lg text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors"
+          aria-label="Close newsletter modal"
         >
           <X className="w-4 h-4" />
         </button>
